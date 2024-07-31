@@ -1,8 +1,13 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const imageUpload = document.getElementById('imageUpload');
+const cropOverlay = document.getElementById('crop-overlay');
 let image = null;
 let originalImageData = null;
+
+let isCropping = false;
+let cropStart = { x: 0, y: 0 };
+let cropEnd = { x: 0, y: 0 };
 
 imageUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -82,11 +87,99 @@ document.getElementById('saturate').addEventListener('click', () => {
 document.getElementById('desaturate').addEventListener('click', () => {
     applyFilter((data, i) => {
         const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        const factor = 0.5;
-        data[i] = data[i] + (avg - data[i]) * factor;
-        data[i + 1] = data[i + 1] + (avg - data[i + 1]) * factor;
-        data[i + 2] = data[i + 2] + (avg - data[i + 2]) * factor;
+               const factor = 0.5;
+        data[i] = avg * factor + data[i] * (1 - factor);
+        data[i + 1] = avg * factor + data[i + 1] * (1 - factor);
+        data[i + 2] = avg * factor + data[i + 2] * (1 - factor);
     });
 });
 
-document
+document.getElementById('reset').addEventListener('click', () => {
+    if (originalImageData) {
+        ctx.putImageData(originalImageData, 0, 0);
+    }
+});
+
+document.getElementById('crop').addEventListener('click', () => {
+    isCropping = !isCropping;
+    cropOverlay.style.display = isCropping ? 'block' : 'none';
+    if (isCropping) {
+        cropOverlay.style.width = '0px';
+        cropOverlay.style.height = '0px';
+    }
+});
+
+canvas.addEventListener('mousedown', (e) => {
+    if (isCropping) {
+        cropStart.x = e.offsetX;
+        cropStart.y = e.offsetY;
+        cropOverlay.style.left = `${cropStart.x}px`;
+        cropOverlay.style.top = `${cropStart.y}px`;
+    }
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (isCropping) {
+        cropEnd.x = e.offsetX;
+        cropEnd.y = e.offsetY;
+        cropOverlay.style.width = `${Math.abs(cropEnd.x - cropStart.x)}px`;
+        cropOverlay.style.height = `${Math.abs(cropEnd.y - cropStart.y)}px`;
+        cropOverlay.style.left = `${Math.min(cropStart.x, cropEnd.x)}px`;
+        cropOverlay.style.top = `${Math.min(cropStart.y, cropEnd.y)}px`;
+    }
+});
+
+canvas.addEventListener('mouseup', () => {
+    if (isCropping) {
+        const croppedWidth = Math.abs(cropEnd.x - cropStart.x);
+        const croppedHeight = Math.abs(cropEnd.y - cropStart.y);
+        const croppedImageData = ctx.getImageData(
+            Math.min(cropStart.x, cropEnd.x),
+            Math.min(cropStart.y, cropEnd.y),
+            croppedWidth,
+            croppedHeight
+        );
+        canvas.width = croppedWidth;
+        canvas.height = croppedHeight;
+        ctx.putImageData(croppedImageData, 0, 0);
+        cropOverlay.style.display = 'none';
+        isCropping = false;
+    }
+});
+
+document.getElementById('resize').addEventListener('click', () => {
+    const width = prompt('Enter new width:', canvas.width);
+    const height = prompt('Enter new height:', canvas.height);
+    if (width && height) {
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        tempCtx.drawImage(canvas, 0, 0, width, height);
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(tempCanvas, 0, 0);
+    }
+});
+
+document.getElementById('funky-filter').addEventListener('click', () => {
+    const filterClass = 'funky-rotate';
+    if (canvas.classList.contains(filterClass)) {
+        canvas.classList.remove(filterClass);
+    } else {
+        canvas.classList.add(filterClass);
+    }
+});
+
+document.getElementById('contrast').addEventListener('input', (e) => {
+    const contrast = e.target.value;
+    ctx.filter = `contrast(${contrast}%)`;
+    ctx.drawImage(image, 0, 0);
+});
+
+document.getElementById('hue-rotate').addEventListener('input', (e) => {
+    const hue = e.target.value;
+    ctx.filter = `hue-rotate(${hue}deg)`;
+    ctx.drawImage(image, 0, 0);
+});
+

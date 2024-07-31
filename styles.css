@@ -1,29 +1,42 @@
 body {
-    font-family: 'Courier New', monospace;
-    background-color: #282c34;
-    color: #61dafb;
-    margin: 0;
-    padding: 0;
-}
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-#canvas {
-    border: 4px solid #20232a;
-    background-color: #282c34;
-    box-shadow: 0 0 20px #61dafb;
-}
-.controls {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    height: 100vh;
+    margin: 0;
 }
-button {
-    background-color: #61dafb;
-    color: #282c34;
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#canvas-container {
+    position: relative;
+    display: inline-block;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+#crop-overlay {
+    position: absolute;
+    border: 2px dashed #333;
+    display: none;
+    pointer-events: none;
+}
+
+button, .file-upload {
+    background-color: #4CAF50;
+    color: white;
     border: none;
     padding: 10px 20px;
     margin: 5px;
@@ -32,45 +45,61 @@ button {
     transition: all 0.3s ease;
     border-radius: 5px;
 }
-button:hover {
-    background-color: #21a1f1;
+
+button:hover, .file-upload:hover {
+    background-color: #45a049;
     transform: scale(1.05);
 }
+
 input[type="file"] {
     display: none;
 }
+
 .file-upload {
-    background-color: #20232a;
-    color: #61dafb;
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
     display: inline-block;
 }
+
 .slider-container {
     display: flex;
     align-items: center;
     margin: 10px 0;
 }
+
 .slider-container label {
     margin-right: 10px;
     min-width: 100px;
 }
+
 input[type="range"] {
     -webkit-appearance: none;
     width: 200px;
     height: 10px;
-    background: #20232a;
+    background: #ccc;
     outline: none;
     border-radius: 5px;
 }
+
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #61dafb;
+    background: #4CAF50;
     cursor: pointer;
     border-radius: 50%;
+}
+
+@keyframes funkyRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.funky-rotate {
+    animation: funkyRotate 10s linear infinite;
 }

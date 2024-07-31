@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Editor</title>
+    <title>Funky Image Editor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,7 +13,10 @@
             <input type="file" id="imageUpload" accept="image/*">
             Upload Image
         </label>
-        <canvas id="canvas"></canvas>
+        <div id="canvas-container">
+            <canvas id="canvas"></canvas>
+            <div id="crop-overlay"></div>
+        </div>
         <div class="controls">
             <button id="brighten">Brighten</button>
             <button id="darken">Darken</button>
@@ -23,6 +26,9 @@
             <button id="saturate">Saturate</button>
             <button id="desaturate">Desaturate</button>
             <button id="reset">Reset</button>
+            <button id="crop">Crop</button>
+            <button id="resize">Resize</button>
+            <button id="funky-filter">Funky Filter</button>
         </div>
         <div class="slider-container">
             <label for="contrast">Contrast:</label>
@@ -33,6 +39,6 @@
             <input type="range" id="hue-rotate" min="0" max="360" value="0">
         </div>
     </div>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
