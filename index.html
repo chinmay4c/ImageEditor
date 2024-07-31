@@ -9,15 +9,30 @@
 <body>
     <div class="container">
         <h1>Funky Image Editor</h1>
-        <input type="file" id="imageUpload" accept="image/*">
+        <label class="file-upload">
+            <input type="file" id="imageUpload" accept="image/*">
+            Upload Image
+        </label>
         <canvas id="canvas"></canvas>
         <div class="controls">
             <button id="brighten">Brighten</button>
             <button id="darken">Darken</button>
             <button id="invert">Invert Colors</button>
             <button id="grayscale">Grayscale</button>
+            <button id="sepia">Sepia</button>
+            <button id="saturate">Saturate</button>
+            <button id="desaturate">Desaturate</button>
+            <button id="reset">Reset</button>
+        </div>
+        <div class="slider-container">
+            <label for="contrast">Contrast:</label>
+            <input type="range" id="contrast" min="0" max="200" value="100">
+        </div>
+        <div class="slider-container">
+            <label for="hue-rotate">Hue Rotate:</label>
+            <input type="range" id="hue-rotate" min="0" max="360" value="0">
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

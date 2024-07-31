@@ -2,6 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const imageUpload = document.getElementById('imageUpload');
 let image = null;
+let originalImageData = null;
 
 imageUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -12,6 +13,7 @@ imageUpload.addEventListener('change', (e) => {
             canvas.width = image.width;
             canvas.height = image.height;
             ctx.drawImage(image, 0, 0);
+            originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         };
         image.src = event.target.result;
     };
@@ -57,3 +59,34 @@ document.getElementById('grayscale').addEventListener('click', () => {
         data[i] = data[i + 1] = data[i + 2] = avg;
     });
 });
+
+document.getElementById('sepia').addEventListener('click', () => {
+    applyFilter((data, i) => {
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+        data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+        data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+    });
+});
+
+document.getElementById('saturate').addEventListener('click', () => {
+    applyFilter((data, i) => {
+        const max = Math.max(data[i], data[i + 1], data[i + 2]);
+        const factor = 1.5;
+        if (data[i] < max) data[i] += (max - data[i]) * factor;
+        if (data[i + 1] < max) data[i + 1] += (max - data[i + 1]) * factor;
+        if (data[i + 2] < max) data[i + 2] += (max - data[i + 2]) * factor;
+    });
+});
+
+document.getElementById('desaturate').addEventListener('click', () => {
+    applyFilter((data, i) => {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        const factor = 0.5;
+        data[i] = data[i] + (avg - data[i]) * factor;
+        data[i + 1] = data[i + 1] + (avg - data[i + 1]) * factor;
+        data[i + 2] = data[i + 2] + (avg - data[i + 2]) * factor;
+    });
+});
+
+document
