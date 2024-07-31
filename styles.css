@@ -1,0 +1,30 @@
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #282c34;
+    color: #61dafb;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+#canvas {
+    border: 2px solid #20232a;
+    background-color: #282c34;
+}
+.controls {
+    margin-top: 20px;
+}
+button {
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+button:hover {
+    background-color: #21a1f1;
+}
