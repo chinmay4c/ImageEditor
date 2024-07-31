@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funky Image Editor</title>
+    <title>Funky Image Editor Pro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Funky Image Editor</h1>
+        <h1 class="funky-rotate">Funky Image Editor Pro</h1>
         <label class="file-upload">
             <input type="file" id="imageUpload" accept="image/*">
             Upload Image
@@ -26,19 +26,38 @@
             <button id="saturate">Saturate</button>
             <button id="desaturate">Desaturate</button>
             <button id="reset">Reset</button>
+            <button id="blur">Blur</button>
+            <button id="sharpen">Sharpen</button>
+            <button id="edge-detect">Edge Detect</button>
+            <button id="emboss">Emboss</button>
             <button id="crop">Crop</button>
             <button id="resize">Resize</button>
+            <button id="rotate">Rotate</button>
+            <button id="flip-horizontal">Flip Horizontal</button>
+            <button id="flip-vertical">Flip Vertical</button>
             <button id="funky-filter">Funky Filter</button>
+            <button id="undo">Undo</button>
+            <button id="redo">Redo</button>
+            <button id="download">Download</button>
+            <div class="slider-container">
+                <label for="contrast">Contrast:</label>
+                <input type="range" id="contrast" min="0" max="200" value="100">
+            </div>
+            <div class="slider-container">
+                <label for="hue-rotate">Hue Rotate:</label>
+                <input type="range" id="hue-rotate" min="0" max="360" value="0">
+            </div>
+            <div class="slider-container">
+                <label for="brightness">Brightness:</label>
+                <input type="range" id="brightness" min="0" max="200" value="100">
+            </div>
         </div>
-        <div class="slider-container">
-            <label for="contrast">Contrast:</label>
-            <input type="range" id="contrast" min="0" max="200" value="100">
-        </div>
-        <div class="slider-container">
-            <label for="hue-rotate">Hue Rotate:</label>
-            <input type="range" id="hue-rotate" min="0" max="360" value="0">
+        <div id="history">
+            <h2>Edit History</h2>
+            <ul id="history-list"></ul>
         </div>
     </div>
-    <script src="script.js"></script>
+    <div id="loading" style="display: none;">Processing...</div>
+    <script src="scripts.js"></script>
 </body>
 </html>
